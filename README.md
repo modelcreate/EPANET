@@ -8,6 +8,7 @@ The patches focus solely on correcting API functionality to match the original b
 
 - PR: [#594](https://github.com/OpenWaterAnalytics/EPANET/pull/594)
 - Issue: [#593](https://github.com/OpenWaterAnalytics/EPANET/issues/593)
+- Patch: [6619dbe](https://github.com/modelcreate/EPANET/commit/6619dbe7596b667afb5fc34eb1d2e455398835d8)
 
 **Problem:** When using metric units, the `EN_settankdata` toolkit function failed to correctly set the tank's bottom elevation. The elevation value provided in meters was assigned internally without the necessary conversion to feet (EPANET's internal unit), and subsequent level calculations were also incorrect. Retrieving the elevation afterwards using `EN_getnodevalue` returned an improperly converted value (e.g., 800 meters became 243.84 meters).
 
@@ -37,6 +38,7 @@ EN_getnodevalue(ph, index, EN_ELEVATION, &retrieved_elevation);
 
 - PR: [#611](https://github.com/OpenWaterAnalytics/EPANET/pull/611)
 - Issue: [#610](https://github.com/OpenWaterAnalytics/EPANET/issues/610)
+- Patch: [e292717](https://github.com/modelcreate/EPANET/commit/e292717b795d1e4a4e87daea5bd7ab21f586286c)
 
 **Problem:** When changing a tank's diameter or minimum volume using the EPANET toolkit API (`EN_setnodevalue`, `EN_settankdata`), the internal calculation for the tank's minimum volume (`Vmin`) incorrectly used the absolute minimum water level (`Hmin`) instead of the actual minimum water _depth_ (`Hmin` minus tank bottom elevation). This resulted in incorrect `Vmin`, initial volume (`V0`), and maximum volume (`Vmax`) values being reported, especially when the diameter was changed.
 
