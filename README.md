@@ -33,33 +33,3 @@ EN_getnodevalue(ph, index, EN_ELEVATION, &retrieved_elevation);
 // Before Patch: retrieved_elevation = 243.840000 (Incorrect - 800 / 3.2808...)
 // After Patch:  retrieved_elevation = 800.000000 (Correct)
 ```
-
-## Correct vmin calculations
-
-- PR: [#611](https://github.com/OpenWaterAnalytics/EPANET/pull/611)
-- Issue: [#610](https://github.com/OpenWaterAnalytics/EPANET/issues/610)
-- Patch: [e292717](https://github.com/modelcreate/EPANET/commit/e292717b795d1e4a4e87daea5bd7ab21f586286c)
-
-**Problem:** When changing a tank's diameter or minimum volume using the EPANET toolkit API (`EN_setnodevalue`, `EN_settankdata`), the internal calculation for the tank's minimum volume (`Vmin`) incorrectly used the absolute minimum water level (`Hmin`) instead of the actual minimum water _depth_ (`Hmin` minus tank bottom elevation). This resulted in incorrect `Vmin`, initial volume (`V0`), and maximum volume (`Vmax`) values being reported, especially when the diameter was changed.
-
-**Patch Fix:** The patch corrects the formulas in `EN_setnodevalue` and `EN_settankdata` to calculate `Vmin` using the tank's cross-sectional area multiplied by the minimum water _depth_ (minimum level minus bottom elevation). This ensures `Vmin` is calculated correctly based on the tank geometry, allowing subsequent calculations for initial and maximum volumes to be accurate after changing parameters like diameter.
-
-```c
-// Using the example from the issue report (Tank 2, Net1.inp)
-// Initial state: Diameter=50.5, Elevation=850, InitLevel=970 (depth=120)
-//                MinLevel=950 (depth=100), MaxLevel=1000 (depth=150)
-// Correct initial volume = pi * 120 * (50.5/2)^2 = 240355
-
-int index = /* index for Tank 2 */;
-double new_diameter = 20.0;
-double vol;
-
-// Change the diameter using the API
-EN_setnodevalue(ph, index, EN_TANKDIAM, new_diameter);
-
-// Get the initial volume
-EN_getnodevalue(ph, index, EN_INITVOLUME, &vol);
-
-// Before Patch: vol = 206579 (Incorrect)
-// After Patch:  vol = 37699  (Correct: pi * 120 * (20/2)^2)
-```
