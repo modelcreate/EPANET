@@ -152,6 +152,7 @@ int readdata(Project *pr)
 
     char line[MAXLINE + 1],  // Line from input data file
          wline[MAXLINE + 1]; // Working copy of input line
+    char errmsg[MAXMSG + 1] = "";
     int  sect, newsect,      // Data sections
          errcode = 0,        // Error code
          inperr, errsum;     // Error code & total error count
@@ -213,7 +214,7 @@ int readdata(Project *pr)
         // Check if max. line length exceeded
         if (strlen(line) >= MAXLINE)
         {
-            sprintf(pr->Msg, "%s section: %s", geterrmsg(214, pr->Msg), SectTxt[sect]);
+            sprintf(pr->Msg, "%s section: %s", geterrmsg(214, errmsg), SectTxt[sect]);
             writeline(pr, pr->Msg);
             writeline(pr, line);
             errsum++;
@@ -586,6 +587,7 @@ int unlinked(Project *pr)
     Network *net = &pr->network;
     int *marked;
     int i, err, errcode;
+    char errmsg[MAXMSG + 1] = "";
 
     errcode = 0;
     err = 0;
@@ -610,7 +612,7 @@ int unlinked(Project *pr)
         if (marked[i] == 0)
         {
             err++;
-            sprintf(pr->Msg, "Error 233: %s %s", geterrmsg(233, pr->Msg), net->Node[i].ID);
+            sprintf(pr->Msg, "Error 234: %s %s", geterrmsg(234, errmsg), net->Node[i].ID);
             writeline(pr, pr->Msg);
         }
         if (err >= MAXERRS) break;

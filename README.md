@@ -33,3 +33,8 @@ EN_getnodevalue(ph, index, EN_ELEVATION, &retrieved_elevation);
 // Before Patch: retrieved_elevation = 243.840000 (Incorrect - 800 / 3.2808...)
 // After Patch:  retrieved_elevation = 800.000000 (Correct)
 ```
+
+## Fix Unconnected nodes garbled error message #609
+
+- PR: [#594](https://github.com/OpenWaterAnalytics/EPANET/pull/609)
+- Issue: [#593](https://github.com/OpenWaterAnalytics/EPANET/issues/608)
