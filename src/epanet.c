@@ -1376,7 +1376,7 @@ int DLLEXPORT EN_setflowunits(EN_Project p, int units)
 {
     Network *net = &p->network;
 
-    int i, j;
+    int i, j, oldUnitFlag;
     double qfactor, vfactor, hfactor, efactor, xfactor, yfactor;
     double *Ucf = p->Ucf;
 
@@ -1388,6 +1388,7 @@ int DLLEXPORT EN_setflowunits(EN_Project p, int units)
     hfactor = Ucf[HEAD];
     efactor = Ucf[ELEV];
 
+    oldUnitFlag = p->parser.Unitsflag;
     p->parser.Flowflag = units;
     switch (units)
     {
@@ -1404,8 +1405,11 @@ int DLLEXPORT EN_setflowunits(EN_Project p, int units)
     }
 
     // Revise pressure units depending on flow units
-    if (p->parser.Unitsflag != SI) p->parser.Pressflag = PSI;
-    else if (p->parser.Pressflag == PSI) p->parser.Pressflag = METERS;
+    if (oldUnitFlag != p->parser.Unitsflag)
+    {
+        if (p->parser.Unitsflag == US) p->parser.Pressflag = PSI;
+        else p->parser.Pressflag = METERS;
+    }
     initunits(p);
 
     //update curves

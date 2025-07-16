@@ -231,7 +231,8 @@ typedef enum {
 typedef enum {
   PSI,           // pounds per square inch
   KPA,           // kiloPascals
-  METERS         // meters
+  METERS,        // meters
+  DEFAULTUNIT    // default based on unit system (SI or US)
 } PressureUnitsType;
 
 typedef enum {
