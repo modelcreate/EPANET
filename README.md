@@ -39,3 +39,7 @@ EN_getnodevalue(ph, index, EN_ELEVATION, &retrieved_elevation);
 - PR: [#594](https://github.com/OpenWaterAnalytics/EPANET/pull/609)
 - Issue: [#593](https://github.com/OpenWaterAnalytics/EPANET/issues/608)
 - Patch: [5b0a3f6](https://github.com/modelcreate/EPANET/commit/5b0a3f678e8c29fa47e8af70c8c1ea27f392273d)
+
+## Support for mixed pressure units
+
+- PR: [#864](https://github.com/OpenWaterAnalytics/EPANET/pull/862)
